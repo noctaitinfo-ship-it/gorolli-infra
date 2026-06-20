@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.gorolli.com/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://www.gorolli.com/et"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gorolli.com/en"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.gorolli.com/de"/>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://www.gorolli.com/fi"/>
+    <xhtml:link rel="alternate" hreflang="lv" href="https://www.gorolli.com/lv"/>
+    <xhtml:link rel="alternate" hreflang="lt" href="https://www.gorolli.com/lt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://www.gorolli.com/pl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gorolli.com/"/>
+  </url>
+</urlset>

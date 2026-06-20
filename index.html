@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoRolli — rendi haagis või teeni oma haagisega</title>
+<meta name="description" content="GoRolli — rendi haagis lähedalt või teeni oma haagisega raha. Üks app, 175 riigis. Saadaval iOS-le ja Androidile.">
+<meta name="theme-color" content="#0A1F3D">
+<link rel="canonical" href="https://www.gorolli.com/">
+<link rel="alternate" hreflang="et" href="https://www.gorolli.com/et">
+<link rel="alternate" hreflang="en" href="https://www.gorolli.com/en">
+<link rel="alternate" hreflang="de" href="https://www.gorolli.com/de">
+<link rel="alternate" hreflang="fi" href="https://www.gorolli.com/fi">
+<link rel="alternate" hreflang="lv" href="https://www.gorolli.com/lv">
+<link rel="alternate" hreflang="lt" href="https://www.gorolli.com/lt">
+<link rel="alternate" hreflang="pl" href="https://www.gorolli.com/pl">
+<link rel="alternate" hreflang="x-default" href="https://www.gorolli.com/">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.gorolli.com/">
+<meta property="og:title" content="GoRolli — rendi haagis või teeni oma haagisega">
+<meta property="og:description" content="Rendi haagis lähedalt või teeni oma haagisega raha. Üks app, 175 riigis.">
+<meta property="og:image" content="https://www.gorolli.com/screenshots/host-t1.png">
+<meta name="twitter:card" content="summary_large_image">
+<!-- favicon: GoRolli mark -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 66 58'%3E%3Crect width='66' height='58' rx='14' fill='%230A1F3D'/%3E%3Cpath fill='%23FDC51A' d='M16 31 C14 21 20 13 30 13 L45 13 C54 13 61 20 61 30 C61 36 57 41 51 41 L20 41 C18 41 16 37 16 31 Z'/%3E%3Ccircle cx='29' cy='43' r='13.5' fill='%23FDC51A'/%3E%3Ccircle cx='29' cy='43' r='5' fill='%230A1F3D'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --yellow:#FDC51A; --yellow-d:#E9A100;
+    --purple:#4B3AF0; --blue:#27B6D8; --teal:#19B3A6;
+    --ink:#0B0C16; --ink2:#12142A;
+    --muted:#9aa0b5; --line:rgba(255,255,255,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--ink);color:#eef0f7;line-height:1.5}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+  /* ===== top nav ===== */
+  header{position:absolute;top:0;left:0;right:0;z-index:50}
+  nav{display:flex;align-items:center;justify-content:space-between;height:68px;color:#fff}
+  .logo{display:flex;align-items:center;gap:9px}
+  .logo .mark{width:36px;height:auto;display:block;flex:0 0 auto}
+  .logo .wm{font-weight:800;font-size:23px;letter-spacing:-.5px;color:#fff}
+  .nav-r{display:flex;align-items:center;gap:14px}
+  .nav-links{display:flex;gap:24px;font-size:14px;color:rgba(255,255,255,.9)}
+  .nav-links a:hover{color:#fff}
+  .lang{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
+    padding:7px 12px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer}
+  .login{font-size:14px;font-weight:600;color:#fff}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  /* ===== hero: FULL-BLEED video, text ON TOP (Meta style) ===== */
+  .hero{position:relative;height:88vh;min-height:560px;max-height:920px;overflow:hidden;background:#05060c}
+  .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0}
+  .hero .scrim{position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg,rgba(5,6,12,.25) 0%,rgba(5,6,12,0) 35%,rgba(5,6,12,0) 70%,rgba(5,6,12,.9) 100%)}
+  .scrollhint{position:absolute;z-index:3;left:50%;bottom:18px;transform:translateX(-50%);color:#fff;font-size:34px;
+    line-height:1;opacity:.85;animation:bob 1.8s ease-in-out infinite;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+  .hero-copy{position:absolute;z-index:2;left:0;right:0;bottom:8%;text-align:center;padding:0 24px}
+  #ticker{display:inline-block;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.22);color:#fff;
+    font-weight:700;font-size:14px;padding:8px 18px;border-radius:999px;margin-bottom:18px;backdrop-filter:blur(6px);transition:opacity .35s ease}
+  .hero h1{font-size:60px;line-height:1.02;letter-spacing:-1.8px;font-weight:900;margin-bottom:14px;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+  .hero h1 .hl{color:var(--yellow)}
+  .hero p.sub{font-size:20px;color:rgba(255,255,255,.92);margin:0 auto 26px;max-width:600px;text-shadow:0 2px 18px rgba(0,0,0,.6)}
+  .hero .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .hbtn{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:17px;padding:16px 30px;border-radius:999px}
+  .hbtn.client{background:var(--purple);color:#fff}
+  .hbtn.host{background:var(--yellow);color:#1a1300}
+  .vlabel{position:absolute;top:84px;left:24px;z-index:2;background:rgba(0,0,0,.45);color:#fff;font-size:12px;padding:6px 12px;border-radius:999px;pointer-events:none}
+  @media(max-width:560px){.hero{height:84vh}.hero h1{font-size:38px}.hero p.sub{font-size:16px}.hero-copy{bottom:6%}}
+
+  /* ===== choose: two tilted app phones, screens animate ===== */
+  .choose{padding:80px 0 50px;text-align:center}
+  .eyebrow{color:var(--yellow);font-weight:700;letter-spacing:1px;font-size:13px;text-transform:uppercase}
+  .choose h2{font-size:36px;letter-spacing:-.8px;margin:10px 0 8px}
+  .choose .lead{color:var(--muted);font-size:17px;max-width:600px;margin:0 auto 56px}
+  .stage{display:flex;justify-content:center;align-items:flex-start;gap:100px;perspective:1700px;flex-wrap:wrap}
+  .device{position:relative;width:330px;flex:0 0 auto;text-align:center}
+  .device .lab{margin-top:24px}
+  .device .lab .k{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+  .device.client .lab .k{color:var(--blue)}
+  .device.host .lab .k{color:var(--yellow-d)}
+  .device .lab h3{font-size:24px;letter-spacing:-.5px;margin:5px 0 14px}
+  .device .open{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;padding:13px 28px;border-radius:999px}
+  .device.client .open{background:var(--purple);color:#fff}
+  .device.host .open{background:var(--yellow);color:#1a1300}
+  .device .open:hover{filter:brightness(1.06)}
+  .frame{position:relative;width:330px;aspect-ratio:1242/2688;border-radius:26px;overflow:hidden;
+    box-shadow:0 40px 90px rgba(0,0,0,.55);border:1px solid var(--line);transition:transform .4s ease;background:#0b0c16}
+  .device.client .frame{transform:rotate(-2deg)}
+  .device.host .frame{transform:rotate(2deg)}
+  .device:hover .frame{transform:rotate(0) translateY(-6px)}
+  .scr{position:relative;width:100%;height:100%;overflow:hidden;text-align:left}
+  .slide{position:absolute;inset:0;opacity:0;transition:opacity .55s ease;z-index:1;background:#0b0c16}
+  .slide.on{opacity:1;z-index:2}
+  .slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .sb{display:flex;justify-content:space-between;padding:10px 18px 4px;font-size:11px;font-weight:600;color:#fff}
+  .abar{display:flex;align-items:center;justify-content:space-between;padding:6px 16px 10px;font-weight:700;font-size:16px;color:#fff}
+  .abar small{font-weight:500;font-size:11px;color:var(--muted);display:block}
+  .stores{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .store{display:inline-flex;align-items:center;gap:8px;background:#000;border:1px solid #2c2f44;color:#fff;padding:8px 14px;border-radius:12px}
+  .store:hover{border-color:#4a4e68}
+  .store svg{width:21px;height:21px;flex:0 0 auto}
+  .store .tx{line-height:1;text-align:left}
+  .store .tx small{display:block;font-size:8.5px;opacity:.8;margin-bottom:2px;letter-spacing:.3px}
+  .store .tx b{font-size:13px}
+  .webbtn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;max-width:316px;margin:10px auto 0;
+    background:rgba(255,255,255,.06);border:1px solid var(--line);color:#fff;padding:12px;border-radius:12px;font-size:13.5px;font-weight:600}
+  .webbtn:hover{background:rgba(255,255,255,.12)}
+  .webbtn svg{width:19px;height:19px;flex:0 0 auto}
+  .dlhint{display:flex;justify-content:center;margin-bottom:8px}
+  .dlhint svg{width:24px;height:42px;animation:dlnudge 1.1s ease-in-out infinite}
+  @keyframes dlnudge{0%,100%{transform:translateY(-7px);opacity:.45}50%{transform:translateY(7px);opacity:1}}
+  /* "Miks GoRolli" panel — roomy, set apart (Meta style), no animation */
+  .strip{background:#0e1020;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:92px 0;text-align:center;margin-top:34px}
+  .strip h2{font-size:32px;letter-spacing:-.7px;margin-bottom:46px}
+  .matchrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:stretch}
+  .mcard{background:var(--ink2);border:1px solid var(--line);border-radius:18px;padding:38px 26px;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+  .mcard.client{border-top:3px solid var(--purple)}
+  .mcard.host{border-top:3px solid var(--yellow)}
+  .mcard.hub{border-top:3px solid var(--blue);background:radial-gradient(120% 120% at 50% 0%,rgba(39,182,216,.14),var(--ink2) 62%)}
+  .mcard .me{font-size:46px;line-height:1}
+  .mcard .mk{width:52px;height:auto}
+  .mcard .mrow{display:flex;align-items:center;justify-content:center;gap:12px;font-size:38px;line-height:1}
+  .mcard .trl{width:56px;height:auto}
+  .mcard .big{font-size:23px;font-weight:800;letter-spacing:-.4px;margin:14px 0 8px}
+  .mcard h4{font-size:20px;margin:16px 0 8px;letter-spacing:-.3px}
+  .mcard p{color:var(--muted);font-size:14px;max-width:280px;margin:0 auto}
+  .mcard.hub .mk{width:52px;height:auto}
+  @media(max-width:860px){.matchrow{grid-template-columns:1fr}.strip{padding:64px 0}}
+  @media(max-width:760px){.choose h2{font-size:28px}.device .frame{transform:none!important}}
+
+  /* ===== news / ads ===== */
+  .news{padding:30px 0 20px}
+  .news h2{font-size:28px;letter-spacing:-.5px;margin-bottom:6px}
+  .news .lead{color:var(--muted);margin-bottom:26px}
+  .ngrid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .ncard{background:var(--ink2);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .15s}
+  .ncard:hover{transform:translateY(-4px)}
+  .ncard .th{height:300px}
+  .ncard .b{padding:22px 22px 26px}
+  .ncard .badge{font-size:11px;font-weight:700;color:#1a1300;background:var(--yellow);padding:4px 11px;border-radius:999px}
+  .ncard h4{font-size:21px;margin:14px 0 6px;letter-spacing:-.3px}
+  .ncard p{color:var(--muted);font-size:15px}
+  .ncard.promo{position:relative;overflow:hidden;display:flex;align-items:center;border-color:rgba(253,197,26,.35);
+    background:radial-gradient(120% 90% at 82% 0%,rgba(253,197,26,.22),transparent 58%),var(--ink2)}
+  .ncard.promo::after{content:"€";position:absolute;right:-18px;bottom:-66px;font-size:250px;font-weight:900;color:rgba(253,197,26,.07);line-height:1;pointer-events:none}
+  .ncard.promo .b{padding:36px 30px;position:relative;z-index:2}
+  .ncard.promo .bignum{font-size:68px;font-weight:900;letter-spacing:-2px;color:var(--yellow);line-height:1;margin:18px 0 8px;text-shadow:0 6px 30px rgba(253,197,26,.25)}
+  .ncard.promo h4{font-size:20px;margin:0 0 8px}
+  .ncard.video{cursor:pointer}
+  .ncard.video .th{position:relative}
+  .ncard.video .playbtn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;
+    border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .ncard.video .playbtn::before{content:"";border-left:22px solid #111;border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:5px}
+  .ncard.video:hover .playbtn{transform:translate(-50%,-50%) scale(1.06)}
+  @media(max-width:760px){.ngrid{grid-template-columns:1fr}.ncard .th{height:240px}}
+
+  /* ===== spread / social ===== */
+  .spread{margin:60px 0;border:1px solid var(--line);border-radius:22px;padding:40px;text-align:center;
+    background:radial-gradient(120% 120% at 50% 0%,rgba(75,58,240,.18),transparent 60%)}
+  .spread h2{font-size:26px;letter-spacing:-.5px;margin-bottom:8px}
+  .spread p{color:var(--muted);margin-bottom:24px}
+  .spread .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .spread .row a{background:rgba(255,255,255,.08);border:1px solid var(--line);padding:13px 22px;border-radius:12px;font-weight:600}
+  .spread .row a:hover{background:rgba(255,255,255,.14)}
+
+  /* ===== footer ===== */
+  footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-size:14px}
+  .langwrap{margin-bottom:30px}
+  .langbar{display:flex;flex-wrap:wrap;gap:7px}
+  .lpill{background:rgba(255,255,255,.04);border:1px solid var(--line);color:#aeb3c7;
+    padding:6px 11px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.5px;cursor:pointer}
+  .lpill:hover{background:rgba(255,255,255,.10);color:#fff}
+  .lpill.on{background:var(--yellow);border-color:var(--yellow);color:#1a1300}
+  .fgrid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:center;
+    border-top:1px solid var(--line);padding-top:24px}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV (ainult logo) ===== -->
+<header>
+  <div class="wrap"><nav>
+    <a class="logo" href="#">
+      <svg class="mark" viewBox="0 0 66 58" aria-hidden="true">
+        <path fill="#FDC51A" d="M16 31 C14 21 20 13 30 13 L45 13 C54 13 61 20 61 30 C61 36 57 41 51 41 L20 41 C18 41 16 37 16 31 Z"/>
+        <circle cx="29" cy="43" r="13.5" fill="#FDC51A"/>
+        <circle cx="29" cy="43" r="5" fill="#0A1F3D"/>
+      </svg>
+      <span class="wm">GoRolli</span>
+    </a>
+  </nav></div>
+</header>
+
+<!-- ===== HERO: full-bleed video, text on top ===== -->
+<section class="hero">
+  <video autoplay muted loop playsinline preload="auto" poster="gorolli-video-poster.jpg">
+    <source src="gorolli-reklaamvideo.mp4" type="video/mp4">
+  </video>
+  <div class="scrim"></div>
+  <a href="#choose" class="scrollhint" aria-label="Keri alla">⌄</a>
+</section>
+
+<!-- ===== "Miks GoRolli" panel (no animation) ===== -->
+<section class="strip">
+  <div class="wrap">
+    <div class="matchrow">
+      <div class="mcard client">
+        <div class="mrow">
+          🔍
+          <svg class="trl" viewBox="0 0 64 40" aria-hidden="true">
+            <rect x="9" y="7" width="42" height="17" rx="3" fill="#dfe3f0"/>
+            <path d="M3 23 h9" stroke="#dfe3f0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M9 25 h44" stroke="#9aa0b5" stroke-width="2"/>
+            <circle cx="23" cy="30" r="5.5" fill="#0b0c16" stroke="#dfe3f0" stroke-width="2.5"/>
+            <circle cx="41" cy="30" r="5.5" fill="#0b0c16" stroke="#dfe3f0" stroke-width="2.5"/>
+          </svg>
+        </div>
+        <div class="big">1000+ haagist</div>
+        <p>Leia haagis lähedalt ja broneeri minutitega — kaubik, paat või matkahaagis.</p>
+      </div>
+      <div class="mcard hub">
+        <div class="mrow">
+          <svg class="mk" viewBox="0 0 66 58" aria-hidden="true">
+            <path fill="#FDC51A" d="M16 31 C14 21 20 13 30 13 L45 13 C54 13 61 20 61 30 C61 36 57 41 51 41 L20 41 C18 41 16 37 16 31 Z"/>
+            <circle cx="29" cy="43" r="13.5" fill="#FDC51A"/>
+            <circle cx="29" cy="43" r="5" fill="#0A1F3D"/>
+          </svg>
+        </div>
+        <div class="big">175+ riigis</div>
+        <p>GoRolli on 175 riigis ja 32 keeles — rakendus kasvab ja kindlustab.</p>
+      </div>
+      <div class="mcard host">
+        <div class="mrow">
+          <svg class="trl" viewBox="0 0 64 40" aria-hidden="true">
+            <rect x="9" y="7" width="42" height="17" rx="3" fill="#dfe3f0"/>
+            <path d="M3 23 h9" stroke="#dfe3f0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M9 25 h44" stroke="#9aa0b5" stroke-width="2"/>
+            <circle cx="23" cy="30" r="5.5" fill="#0b0c16" stroke="#dfe3f0" stroke-width="2.5"/>
+            <circle cx="41" cy="30" r="5.5" fill="#0b0c16" stroke="#dfe3f0" stroke-width="2.5"/>
+          </svg>
+          👤 💶
+        </div>
+        <div class="big">Teeni raha</div>
+        <p>Pane oma haagis välja ja teeni passiivset tulu, kuni 50€ nädalas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHOOSE: two tilted app phones ===== -->
+<section class="choose" id="choose">
+  <div class="wrap">
+    <div class="stage">
+
+      <!-- CLIENT PHONE -->
+      <div class="device client">
+        <div class="frame"><div class="scr">
+          <!-- client story: find → pick → price → broneeri haagis → loved -->
+          <div class="slide on"><img src="screenshots/client-t1.png" alt="GoRolli klient — leia haagis lähedalt"></div>
+          <div class="slide"><img src="screenshots/client-t2.png" alt="GoRolli klient — vali tüüp"></div>
+          <div class="slide"><img src="screenshots/client-t3.png" alt="GoRolli klient — selge hind"></div>
+          <div class="slide"><img src="screenshots/client-book.png" alt="GoRolli klient — broneeri haagis"></div>
+          <div class="slide"><img src="screenshots/client-t5.png" alt="GoRolli klient — armastatud kõikjal"></div>
+        </div></div>
+        <div class="lab">
+          <div class="dlhint" aria-hidden="true">
+            <svg viewBox="0 0 24 40" fill="none" stroke="#FDC51A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 V34"/><path d="M4 26 L12 34 L20 26"/></svg>
+          </div>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/us/search?term=GoRolli" target="_blank" rel="noopener" title="Lae KLIENDI app App Store'ist">
+              <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.05 12.04c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.78 1.3 10.33.86 1.25 1.88 2.65 3.22 2.6 1.29-.05 1.78-.83 3.34-.83 1.56 0 2 .83 3.37.81 1.39-.03 2.27-1.27 3.12-2.53.98-1.45 1.38-2.85 1.4-2.92-.03-.01-2.69-1.03-2.72-4.09zM14.6 4.59c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.26.68-2.99 1.54-.66.76-1.23 1.98-1.08 3.15 1.14.09 2.3-.58 3.01-1.44z"/></svg>
+              <span class="tx"><small>Lae alla</small><b>App Store</b></span>
+            </a>
+            <a class="store" href="https://play.google.com/store/apps/details?id=com.mycompany.Hotelio" target="_blank" rel="noopener" title="Lae KLIENDI app Google Play'st">
+              <svg viewBox="0 0 24 24"><path fill="#00C3FF" d="M3.6 2.4c-.3.2-.5.6-.5 1v17.2c0 .4.2.8.5 1l9.5-9.6z"/><path fill="#FFCE00" d="M16.8 8.3 13.1 12l3.7 3.7 4.4-2.5c.9-.5.9-1.9 0-2.4z"/><path fill="#00F076" d="M3.6 2.4 13.1 12l3.7-3.7L6 2.1c-.9-.5-1.8-.3-2.4.3z"/><path fill="#FF3A44" d="M3.6 21.6c.6.6 1.5.8 2.4.3l10.8-6.2L13.1 12z"/></svg>
+              <span class="tx"><small>Saadaval</small><b>Google Play</b></span>
+            </a>
+          </div>
+          <a class="webbtn" href="https://www.gorolli.com" title="Ava kliendi app veebis">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            Ava veebis — ilma allalaadimiseta
+          </a>
+        </div>
+      </div>
+
+      <!-- HOST PHONE -->
+      <div class="device host">
+        <div class="frame"><div class="scr">
+          <!-- host story: earn → reach → bookings → income → list → start -->
+          <div class="slide on"><img src="screenshots/host-t1.png" alt="GoRolli host — teeni GoRolliga"></div>
+          <div class="slide"><img src="screenshots/host-t2.png" alt="GoRolli host — jõua rentijateni kõikjal"></div>
+          <div class="slide"><img src="screenshots/host-t3.png" alt="GoRolli host — broneeringud tulevad sinuni"></div>
+          <div class="slide"><img src="screenshots/host-t4.png" alt="GoRolli host — muuda see tuluks"></div>
+          <div class="slide"><img src="screenshots/host-t5.png" alt="GoRolli host — lisa minutitega"></div>
+          <div class="slide"><img src="screenshots/host-t6.png" alt="GoRolli host — alusta hostimist täna"></div>
+        </div></div>
+        <div class="lab">
+          <div class="dlhint" aria-hidden="true">
+            <svg viewBox="0 0 24 40" fill="none" stroke="#FDC51A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 V34"/><path d="M4 26 L12 34 L20 26"/></svg>
+          </div>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/us/search?term=GoRolli" target="_blank" rel="noopener" title="Lae HOSTI app App Store'ist">
+              <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.05 12.04c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.78 1.3 10.33.86 1.25 1.88 2.65 3.22 2.6 1.29-.05 1.78-.83 3.34-.83 1.56 0 2 .83 3.37.81 1.39-.03 2.27-1.27 3.12-2.53.98-1.45 1.38-2.85 1.4-2.92-.03-.01-2.69-1.03-2.72-4.09zM14.6 4.59c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.26.68-2.99 1.54-.66.76-1.23 1.98-1.08 3.15 1.14.09 2.3-.58 3.01-1.44z"/></svg>
+              <span class="tx"><small>Lae alla</small><b>App Store</b></span>
+            </a>
+            <a class="store" href="https://play.google.com/store/apps/details?id=com.mycompany.gorollihostapp" target="_blank" rel="noopener" title="Lae HOSTI app Google Play'st">
+              <svg viewBox="0 0 24 24"><path fill="#00C3FF" d="M3.6 2.4c-.3.2-.5.6-.5 1v17.2c0 .4.2.8.5 1l9.5-9.6z"/><path fill="#FFCE00" d="M16.8 8.3 13.1 12l3.7 3.7 4.4-2.5c.9-.5.9-1.9 0-2.4z"/><path fill="#00F076" d="M3.6 2.4 13.1 12l3.7-3.7L6 2.1c-.9-.5-1.8-.3-2.4.3z"/><path fill="#FF3A44" d="M3.6 21.6c.6.6 1.5.8 2.4.3l10.8-6.2L13.1 12z"/></svg>
+              <span class="tx"><small>Saadaval</small><b>Google Play</b></span>
+            </a>
+          </div>
+          <a class="webbtn" href="https://www.gorolli.com" title="Ava hosti app veebis">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            Ava veebis — ilma allalaadimiseta
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWS ===== -->
+<section class="news" id="news">
+  <div class="wrap">
+    <h2>Uudised &amp; pakkumised</h2>
+    <p class="lead">Kampaaniad, uued linnad ja kõik, mis GoRollis toimub.</p>
+    <div class="ngrid">
+      <div class="ncard promo"><div class="b"><span class="badge">KAMPAANIA</span><div class="bignum">50€</div><h4>Loosis uute kasutajate vahel</h4><p>Liitu kliendi või hosti äpiga ja osaled automaatselt loosis. Allahindlust pole — lihtsalt liitu ja võid võita.</p></div></div>
+      <div class="ncard video" onclick="openVideo(this)" role="button" tabindex="0"><div class="th" style="background:#000 url('video/juhend-poster.jpg') center/cover"><span class="playbtn"></span></div><div class="b"><span class="badge">JUHEND</span><h4>Kuidas haagis kärmelt välja panna</h4><p>Paari minutiga: pildista, määra hind ja aeg — ning hakka teenima juba täna.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SPREAD ===== -->
+<section class="wrap">
+  <div class="spread">
+    <h2>Levita ja teeni rohkem</h2>
+    <p>Jälgi meid, jaga sõbrale ja lae alla reklaambrošüür.</p>
+    <div class="row">
+      <a href="#">📲 TikTok</a>
+      <a href="#">📘 Facebook</a>
+      <a href="#">📸 Instagram</a>
+      <a href="#">📥 Lae brošüür (PDF)</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <!-- language ribbon (auto by location, English default) -->
+    <div class="langwrap">
+      <div class="langbar" id="langbar">
+        <span class="lpill on" data-l="en">EN</span>
+        <span class="lpill" data-l="et">EE</span>
+        <span class="lpill" data-l="fi">FI</span>
+        <span class="lpill" data-l="lv">LV</span>
+        <span class="lpill" data-l="lt">LT</span>
+        <span class="lpill" data-l="de">DE</span>
+        <span class="lpill" data-l="pl">PL</span>
+        <span class="lpill" data-l="ru">RU</span>
+        <span class="lpill" data-l="sv">SE</span>
+        <span class="lpill" data-l="no">NO</span>
+        <span class="lpill" data-l="da">DK</span>
+        <span class="lpill" data-l="nl">NL</span>
+        <span class="lpill" data-l="fr">FR</span>
+        <span class="lpill" data-l="es">ES</span>
+        <span class="lpill" data-l="it">IT</span>
+        <span class="lpill" data-l="pt">PT</span>
+        <span class="lpill" data-l="cs">CZ</span>
+        <span class="lpill" data-l="sk">SK</span>
+        <span class="lpill" data-l="hu">HU</span>
+        <span class="lpill" data-l="ro">RO</span>
+        <span class="lpill" data-l="bg">BG</span>
+        <span class="lpill" data-l="hr">HR</span>
+        <span class="lpill" data-l="sl">SI</span>
+        <span class="lpill" data-l="el">GR</span>
+        <span class="lpill" data-l="uk">UA</span>
+        <span class="lpill" data-l="tr">TR</span>
+        <span class="lpill" data-l="is">IS</span>
+        <span class="lpill" data-l="ga">IE</span>
+        <span class="lpill" data-l="mt">MT</span>
+        <span class="lpill" data-l="sq">AL</span>
+        <span class="lpill" data-l="sr">RS</span>
+        <span class="lpill" data-l="mk">MK</span>
+      </div>
+    </div>
+    <div class="fgrid">
+      <div class="logo">
+        <svg class="mark" viewBox="0 0 66 58" style="width:28px" aria-hidden="true">
+          <path fill="#FDC51A" d="M16 31 C14 21 20 13 30 13 L45 13 C54 13 61 20 61 30 C61 36 57 41 51 41 L20 41 C18 41 16 37 16 31 Z"/>
+          <circle cx="29" cy="43" r="13.5" fill="#FDC51A"/>
+          <circle cx="29" cy="43" r="5" fill="#0A1F3D"/>
+        </svg>
+        <span class="wm" style="font-size:18px">GoRolli</span>
+      </div>
+      <div>© 2026 GoRolli · Teenusetingimused · Privaatsus</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // play self-hosted video INLINE inside the same card — no Facebook, no new tab
+  function openVideo(card){
+    var th=card.querySelector('.th');
+    if(th.querySelector('video'))return;
+    th.innerHTML='<video src="video/gorolli-juhend.mp4" controls autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;background:#000;display:block"></video>';
+  }
+</script>
+
+<script>
+  // app screens cycle inside each phone like an ad
+  document.querySelectorAll('.scr').forEach(function(scr,idx){
+    var slides=scr.querySelectorAll('.slide');
+    if(slides.length<2)return;
+    var i=0;
+    function step(){
+      var prev=i;
+      i=(i+1)%slides.length;
+      slides[i].style.zIndex=3;
+      slides[i].classList.add('on');
+      setTimeout(function(){
+        slides[prev].classList.remove('on');
+        slides[prev].style.zIndex=1;
+      },600);
+    }
+    setTimeout(function(){setInterval(step,3400);}, idx*1700);
+  });
+
+  // language ribbon: highlight chosen language (real site: redirect to /<lang>)
+  var lb=document.getElementById('langbar');
+  if(lb){
+    lb.querySelectorAll('.lpill').forEach(function(p){
+      p.addEventListener('click',function(){
+        lb.querySelectorAll('.lpill').forEach(function(x){x.classList.remove('on');});
+        p.classList.add('on');
+        // location.href='/'+p.dataset.l;
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
