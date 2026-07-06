@@ -132,7 +132,10 @@ on conflict (country_code) do update set
   updated_at               = now();
 
 -- 3) Readiness-vaade uuendatud veergudega ---------------------------------------
-create or replace view public.country_payment_readiness as
+-- NB: DROP on vajalik — CREATE OR REPLACE VIEW ei luba veergude järjekorda/nimesid
+-- muuta (42P16). Vaade on ainult admin-dashboardi jaoks, drop on ohutu.
+drop view if exists public.country_payment_readiness;
+create view public.country_payment_readiness as
 select
   country_code, country_name, currency, default_currency,
   market_status, country_status, stripe_mode,
@@ -170,6 +173,4 @@ order by market_status, country_code;
 -- select count(*) from public.country_config where market_status='live' and currency='eur';
 --   -- oodatud: 21
 -- select country_code from public.country_config
---   where market_status<>'live' and (payments_enabled or booking_enabled or payouts_enabled);
---   -- oodatud: 0 rida (ükski mitte-live riik ei saa maksta/broneerida/payout'ida)
--- select * from public.country_payment_readiness order by market_status, country_code;
+--   where market_status<>'live' and (payments_enabled or booking
