@@ -55,19 +55,18 @@ Deno.serve(async (req) => {
     if (!country) {
       return json({ error: 'country required (host has no country_code)' }, 400);
     }
-    // DEFAULT DENY (2026-07-03): host saab Connect-onboardingu teha AINULT riigis,
-    // mis on country_config-is olemas, ACTIVE, host_enabled=true ja
-    // stripe_connect_supported=true. Tundmatu riik -> selge viga.
-    // NB: eeldab, et sql/country_config_46_markets.sql on enne käivitatud
-    // (lisab host_enabled veeru).
+    // OPEN ALL (2026-07-06): default ALLOW. Blokeerime ainult admini selge
+    // keeluga riigi (DISABLED / host_enabled=false / connect=false).
+    // Tundmatu riik -> proovime; Stripe ise lükkab toetuseta riigi tagasi
+    // konto loomisel (see ongi päris tehniline piir).
     const { data: cfg } = await supabase
       .from('country_config')
       .select('stripe_connect_supported, country_status, host_enabled')
       .eq('country_code', country)
       .maybeSingle();
-    if (!cfg || cfg.country_status !== 'ACTIVE' || cfg.host_enabled !== true ||
-        cfg.stripe_connect_supported === false) {
-      return json({ error: `Country is not enabled yet (${country})` }, 400);
+    if (cfg && (cfg.country_status === 'DISABLED' || cfg.host_enabled === false ||
+        cfg.stripe_connect_supported === false)) {
+      return json({ error: `Country ${country} is disabled for payouts by admin` }, 400);
     }
     // Persisti hosti riik kui veel puudub.
     if (!host.country_code) {

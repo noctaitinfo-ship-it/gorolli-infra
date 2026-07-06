@@ -63,10 +63,10 @@ Deno.serve(async (req) => {
         results.push({ id: b.id, error: 'host has no connected account' });
         continue;
       }
-      // DEFAULT DENY (2026-07-03): tundmatu riik / puuduv country_config rida /
-      // mitte-ACTIVE staatus -> payout BLOKEERITUD. Läbi laseb ainult
-      // country_status='ACTIVE' + payouts_enabled=true. Connect-võimekuse
-      // kontrollib endiselt host.stripe_account_id + Stripe transfer-hetkel.
+      // OPEN ALL (2026-07-06): default ALLOW — automaatne arveldus igal pool.
+      // Blokeerime AINULT admini selge keeluga riigi (DISABLED / payouts off).
+      // Tundmatu riik -> proovime; päris võimekuse otsustab host.stripe_account_id
+      // kontroll üleval + Stripe ise transfer-hetkel.
       // Currency: country_config -> booking currency -> platform default 'eur'.
       const country = (host.country_code ?? '').toString().toUpperCase();
       const { data: cfg } = await supabase
@@ -74,8 +74,8 @@ Deno.serve(async (req) => {
         .select('currency, payouts_enabled, country_status')
         .eq('country_code', country)
         .maybeSingle();
-      if (!cfg || cfg.country_status !== 'ACTIVE' || cfg.payouts_enabled === false) {
-        results.push({ id: b.id, error: `Country is not enabled yet (${country || 'unknown'})` });
+      if (cfg && (cfg.country_status === 'DISABLED' || cfg.payouts_enabled === false)) {
+        results.push({ id: b.id, error: `payouts disabled by admin for country ${country}` });
         continue;
       }
       const payoutCurrency = (cfg?.currency ?? b.currency ?? 'eur').toString().toLowerCase();
