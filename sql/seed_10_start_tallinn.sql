@@ -16,14 +16,31 @@ declare
   v_tid      bigint;
   r          record;
 begin
+  -- 1) täpne email
   select id, host_uid into v_host_id, v_host_uid
     from public.hosts
-   where lower(coalesce(email,'')) = 'info@kimm.ee'
-   order by id
-   limit 1;
+   where lower(trim(coalesce(email,''))) = 'info@kimm.ee'
+   order by id limit 1;
+
+  -- 2) fallback: email/nimi sisaldab 'kimm'
+  if v_host_id is null then
+    select id, host_uid into v_host_id, v_host_uid
+      from public.hosts
+     where lower(coalesce(email,'')) like '%kimm%'
+        or lower(coalesce(full_name,'')) like '%kimm%'
+     order by id limit 1;
+  end if;
+
+  -- 3) fallback: kui tabelis ongi ainult ÜKS host, kasuta seda
+  if v_host_id is null and (select count(*) from public.hosts) = 1 then
+    select id, host_uid into v_host_id, v_host_uid
+      from public.hosts limit 1;
+  end if;
 
   if v_host_id is null then
-    raise exception 'Hosti emailiga info@kimm.ee ei leitud hosts-tabelist. Logi host-äppi selle kontoga sisse ja käivita uuesti.';
+    raise exception E'Hosti ei leitud. Vaata olemasolevad: %\nAsenda vajadusel plokis v_host_id käsitsi.',
+      (select string_agg(format('id=%s email=%s nimi=%s', id, coalesce(email,'-'), coalesce(full_name,'-')), '; ')
+         from public.hosts);
   end if;
 
   for r in
